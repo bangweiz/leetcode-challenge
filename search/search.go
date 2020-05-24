@@ -1,38 +1,38 @@
 package search
 
-func Search(nums []int, target int) int {
+func search(nums []int, target int) int {
 	length := len(nums)
 	if length == 0 {
 		return -1
 	}
 	left := 0
 	right := length - 1
-	var mid, first int
+	var mid int
 	for left <= right {
 		mid = (right - left) / 2 + left
-		first = nums[left]
-		if first == target {
-			return left
-		}
 
 		if nums[mid] < target {
-			if first <= nums[mid] {
+			if nums[left] <= nums[mid] {
 				left = mid + 1
 			} else {
-				if first < target {
+				if nums[left] < target {
 					right = mid - 1
-				} else {
+				} else if nums[left] > target {
 					left = mid + 1
+				} else {
+					return left
 				}
 			}
 		} else if nums[mid] > target {
-			if first > nums[mid] {
+			if nums[left] > nums[mid] {
 				right = mid - 1
 			} else {
-				if first > target {
+				if nums[left] > target {
 					left = mid + 1
-				} else {
+				} else if nums[left] < target {
 					right = mid - 1
+				} else {
+					return left
 				}
 			}
 		} else {
