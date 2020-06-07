@@ -5,6 +5,7 @@ go 1.13
 replace (
 	github/bangweiz/leetCode/groupAnagrams => ./groupAnagrams
 	github/bangweiz/leetCode/jumpGame => ./jumpGame
+	github/bangweiz/leetCode/june_challenge => ./june_challenge
 	github/bangweiz/leetCode/lruCache => ./lruCache
 	github/bangweiz/leetCode/maxPathSum => ./maxPathSum
 	github/bangweiz/leetCode/maxProfit => ./maxProfit
