@@ -1,6 +1,8 @@
 package contest192
 
-import "math"
+import (
+	"math"
+)
 
 func shuffle(nums []int, n int) []int {
 	if len(nums) <= 2 {
@@ -107,5 +109,55 @@ func (b *BrowserHistory) Forward(steps int) string {
 }
 
 func minCost(houses []int, cost [][]int, m int, n int, target int) int {
+	res := make([][][]int, m + 1)
+	for i := range res {
+		res[i] = make([][]int, n + 1)
+		for j := range res[i] {
+			res[i][j] = make([]int, target + 1)
+		}
+	}
+	for i := 1; i < len(res); i++ {
+		for k := 1; k < target + 1; k++ {
+			for j := 1; j < len(res[i]); j++ {
+				if k > i {
+					res[i][j][k] = 999999999
+				} else if houses[i - 1] != 0 {
+					if houses[i - 1] != j {
+						res[i][j][k] = 999999999
+					} else {
+						temp := res[i - 1][j][k]
+						for index := 0; index < len(cost[0]); index++ {
+							if index != j - 1 && k - 1 != 0 {
+								temp = min(temp, res[i - 1][index + 1][k - 1])
+							}
+						}
+						res[i][j][k] = temp
+					}
+				} else {
+					temp := res[i - 1][j][k] + cost[i - 1][j - 1]
+					for index := 0; index < len(cost[0]); index++ {
+						if index + 1 != j && k - 1 != 0 {
+							temp = min(temp, cost[i - 1][j - 1] + res[i - 1][index + 1][k - 1])
+						}
+					}
+					res[i][j][k] = temp
+				}
+			}
+		}
+	}
+	max := 999999999
+	for i := 1; i <= n; i++ {
+		max = min(max, res[m][i][target])
+	}
+	if max == 999999999 {
+		 return -1
+	}
+	return max
+}
 
+func min(a,b int) int {
+	if a > b {
+		return b
+	}
+	return a
 }
