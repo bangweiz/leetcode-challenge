@@ -6,8 +6,7 @@ type Solution struct {
 	p []int
 }
 
-
-func Constructor(w []int) Solution {
+func constructor(w []int) Solution {
 	sum, p := 0, make([]int, len(w))
 	for i, v := range w {
 		sum += v
