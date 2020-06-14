@@ -38,42 +38,21 @@ func (s *SubrectangleQueries) GetValue(row int, col int) int {
 }
 
 func minSumOfLengths(arr []int, target int) int {
-	prefix, sufix := make([]int, len(arr)), make([]int, len(arr))
-	for i := range arr {
-		temp, count, flag := target, 0, false
-		for j := i; j >= 0; j-- {
-			temp -= arr[j]
-			count++
-			if temp == 0 {
-				prefix[i], flag = count, true
-				break
-			} else if temp < 0 {
-				break
-			}
-		}
-		if !flag {
-			prefix[i] = 0
-		}
-		temp, count, flag = target, 0, false
-		for j := i; j < len(arr); j++ {
-			temp -= arr[j]
-			count++
-			if temp == 0 {
-				sufix[i], flag = count, true
-				break
-			} else if temp < 0 {
-				break
-			}
-		}
-		if !flag {
-			sufix[i] = 0
-		}
+	hmap := map[int]int{0 : -1}
+	sum, lsize, res := 0, 999999999, 999999999
+	for i, v := range arr {
+		sum += v
+		hmap[sum] = i
 	}
+	sum = 0
+	for i, v := range arr {
+		sum += v
+		if value, ok := hmap[sum - target]; ok {
+			lsize = min(lsize, value - i)
+		}
 
-	res := 999999999
-	for i := 0; i < len(prefix) - 1; i++ {
-		if prefix[i] != 0 && sufix[i + 1] != 0 {
-			res = min(res, prefix[i] + sufix[i + 1])
+		if value, ok := hmap[sum + target]; ok && lsize < 999999999 {
+			res = min(res, lsize + value - i)
 		}
 	}
 	if res == 999999999 {
