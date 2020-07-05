@@ -131,13 +131,12 @@ func minInteger(num string, k int) string {
 			}
 			continue
 		}
-
-		t := make([]byte, 0)
-		t = append(t, b[:index - count]...)
-		t = append(t, b[index])
-		t = append(t, b[index - count : index]...)
-		t = append(t, b[index + 1:]...)
-		b, k, start = t, k - count, start + 1
+		temp := b[index]
+		b = append(b[:index], b[index+1:]...)
+		b = append(b, temp)
+		copy(b[index - count + 1:], b[index - count:])
+		b[index - count] = temp
+		k, start = k - count, start + 1
 	}
 	return string(b)
 }
