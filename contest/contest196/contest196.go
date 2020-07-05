@@ -126,11 +126,12 @@ func minInteger(num string, k int) string {
 		}
 		if count == 0 {
 			start++
+			if start >= len(b) {
+				break
+			}
 			continue
 		}
-		if start >= len(b) {
-			break;
-		}
+
 		t := make([]byte, 0)
 		t = append(t, b[:index - count]...)
 		t = append(t, b[index])
