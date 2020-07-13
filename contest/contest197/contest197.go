@@ -125,7 +125,6 @@ func maxProbability(n int, edges [][]int, succProb []float64, start int, end int
 }
 
 
-// TODO: not pass
 func getMinDistSum(positions [][]int) (res float64) {
 	if len(positions) == 2 {
 		res = math.Sqrt(math.Pow(float64(positions[0][0] - positions[1][0]), 2) + math.Pow(float64(positions[0][1] - positions[1][1]), 2))
