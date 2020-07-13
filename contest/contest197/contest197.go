@@ -130,31 +130,20 @@ func getMinDistSum(positions [][]int) (res float64) {
 	if len(positions) == 2 {
 		res = math.Sqrt(math.Pow(float64(positions[0][0] - positions[1][0]), 2) + math.Pow(float64(positions[0][1] - positions[1][1]), 2))
 	} else if len(positions) > 2 {
-		res = 999999999
-		for i := 0; i < len(positions); i++ {
-			for j := i + 1; j < len(positions); j++ {
-				for k := j + 1; k < len(positions); k++ {
-					x, y := findCenter(positions[i], positions[j], positions[k])
-					temp := dist(positions, x, y)
-					if temp < res {
-						 res = temp
+		res = math.MaxFloat64
+		x, y, delta, minX, minY := 50.0, 50.0, 50.0, 50.0, 50.0
+		for delta >= 0.00001 {
+			for i := x - delta; i <= x + delta; i += delta / 10 {
+				for j := y - delta; j <= y + delta; j += delta / 10 {
+					d := dist(positions, i, j)
+					if d < res {
+						res, minX, minY = d, i, j
 					}
 				}
 			}
+			x, y, delta = minX, minY, delta / 10
 		}
 	}
-	return
-}
-
-func findCenter(p1, p2, p3 []int) (x, y float64) {
-	a := 2 * (p2[0] - p1[0])
-	b := 2 * (p2[1] - p1[1])
-	c := p2[0] * p2[0] + p2[1] * p2[1] - p1[0] * p1[0] - p1[1] * p1[1]
-	d := 2 * (p3[0] - p2[0])
-	e := 2 * (p3[1] - p2[1])
-	f := p3[0] * p3[0] + p3[1] * p3[1] - p2[1] * p2[1] - p2[0] * p2[0]
-	x = float64(b * f - e * c) / float64(b * d - e * a)
-	y = float64(d * c - a * f) / float64(b * d - e * a)
 	return
 }
 
