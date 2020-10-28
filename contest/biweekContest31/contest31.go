@@ -9,7 +9,6 @@ func countOdds(low int, high int) int {
 }
 
 func numOfSubarrays(arr []int) int {
-	mod := int(10e9 + 7)
 	res, subArrays := make([]int, len(arr)), [2]int{0, 0}
 	if arr[0] % 2 == 0 {
 		res[0], subArrays[0] = 0, 1
@@ -19,14 +18,14 @@ func numOfSubarrays(arr []int) int {
 
 	for i := 1; i < len(arr); i++ {
 		if arr[i] % 2 == 0 {
-			res[i] = (res[i - 1] + subArrays[1]) % mod
+			res[i] = res[i - 1] + subArrays[1]
 			subArrays[0] += 1
 		} else {
-			res[i] = (res[i - 1] + subArrays[0] + 1) % mod
+			res[i] = res[i - 1] + subArrays[0] + 1
 			subArrays[0], subArrays[1] = subArrays[1], subArrays[0] + 1
 		}
 	}
-	return res[len(res) - 1]
+	return res[len(res) - 1] % 1000000007
 }
 
 func numSplits(s string) int {
